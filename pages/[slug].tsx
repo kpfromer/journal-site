@@ -1,14 +1,40 @@
-import type { GetStaticProps, NextPage } from "next";
-import { processor, testProcessor } from "../lib/org-parser";
+import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 
 import Head from "next/head";
-import Image from "next/image";
 import { promises as fs } from "fs";
 import path from "path";
-import styles from "../styles/Home.module.css";
+import { processor } from "../lib/org-parser";
+
+const getPageFile = (file?: string) =>
+  path.join(process.cwd(), "data", file ?? "");
+
+const getPages = async () => {
+  const files = [];
+
+  const items = await fs.readdir(getPageFile());
+
+  for (const item of items) {
+    const stat = await fs.stat(getPageFile(item));
+
+    if (stat.isFile()) {
+      files.push(path.parse(item).name);
+    }
+  }
+
+  return files;
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const slugs = await getPages();
+
+  return {
+    paths: slugs.map((slug) => ({ params: { slug } })),
+    fallback: false,
+  };
+};
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const rawData = await fs.readFile(path.join(process.cwd(), "data/test.org"));
+  const rawData = await fs.readFile(getPageFile(`${params?.slug}.org`));
   const data = rawData.toString();
 
   return {
@@ -19,8 +45,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 const Home: NextPage<{ data: string }> = ({ data }) => {
-  // console.log(processor.processSync(data));
-  console.log(testProcessor.processSync(data));
+  console.log(processor.processSync(data));
   return (
     <div>
       <Head>
