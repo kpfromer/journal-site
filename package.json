@@ -8,15 +8,24 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@orgajs/reorg-parse": "^3.1.6",
+    "@orgajs/reorg-rehype": "^3.0.9",
+    "@tailwindcss/typography": "^0.4.1",
     "next": "12.0.4",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "rehype-react": "^7.0.3",
+    "rehype-stringify": "^9.0.2",
+    "unified": "^10.1.0"
   },
   "devDependencies": {
     "@types/node": "16.11.7",
     "@types/react": "17.0.35",
+    "autoprefixer": "^10.4.0",
     "eslint": "7.32.0",
     "eslint-config-next": "12.0.4",
+    "postcss": "^8.3.11",
+    "tailwindcss": "^2.2.19",
     "typescript": "4.4.4"
   }
 }
