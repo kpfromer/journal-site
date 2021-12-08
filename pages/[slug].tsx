@@ -1,8 +1,7 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 
 import Head from "next/head";
-import { PrismaClient } from "@prisma/client";
-import { processor } from "../lib/org-parser";
+import { getPageContentBySlug } from "../lib/org/page";
 import { useRouter } from "next/dist/client/router";
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -13,14 +12,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const client = new PrismaClient();
-
   const slug = (params?.slug ?? "") as string;
-  const dbItem = await client.orgPage.findFirst({
-    where: { slug },
-  });
+  const data = await getPageContentBySlug(slug);
 
-  const data = processor.processSync(dbItem?.content ?? "").value.toString();
+  if (data === undefined) {
+    return { notFound: true };
+  }
 
   return {
     props: {
@@ -58,7 +55,7 @@ const Home: NextPage<{ data: string }> = ({ data }) => {
               __html: data,
             }}
           />
-        )}{" "}
+        )}
       </main>
     </div>
   );
