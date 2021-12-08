@@ -17,6 +17,16 @@
   @apply text-gray-800 px-1 py-0.5 border border-gray-100 rounded-md bg-gray-100;
 }
 
+.prose table {
+  @apply border-collapse;
+}
+
+.prose table,
+.prose th,
+.prose td {
+  @apply border;
+}
+
 .token,
 .token.plain {
   @apply text-black;
