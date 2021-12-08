@@ -2,13 +2,9 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 
 import Head from "next/head";
 import { PrismaClient } from "@prisma/client";
-import path from "path";
 import { processor } from "../lib/org-parser";
 
 const client = new PrismaClient();
-
-const getPageFile = (file?: string) =>
-  path.join(process.cwd(), "data", file ?? "");
 
 const getPages = async () => {
   const pages = await client.orgPage.findMany();
