@@ -2,10 +2,8 @@ import type { GetStaticProps, NextPage } from "next";
 import { processor, testProcessor } from "../lib/org-parser";
 
 import Head from "next/head";
-import Image from "next/image";
 import { promises as fs } from "fs";
 import path from "path";
-import styles from "../styles/Home.module.css";
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const rawData = await fs.readFile(path.join(process.cwd(), "data/test.org"));
@@ -13,14 +11,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: {
-      data,
+      data: (await processor.process(data)).value.toString(),
     },
   };
 };
 
 const Home: NextPage<{ data: string }> = ({ data }) => {
   // console.log(processor.processSync(data));
-  console.log(testProcessor.processSync(data));
+  // console.log(testProcessor.processSync(data));
   return (
     <div>
       <Head>
@@ -40,7 +38,7 @@ const Home: NextPage<{ data: string }> = ({ data }) => {
         <div
           className="mx-auto prose max-w-none"
           dangerouslySetInnerHTML={{
-            __html: processor.processSync(data).value.toString(),
+            __html: data,
           }}
         />
       </main>
