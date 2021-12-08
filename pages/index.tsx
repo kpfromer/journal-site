@@ -5,18 +5,18 @@ import Head from "next/head";
 import { promises as fs } from "fs";
 import path from "path";
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const rawData = await fs.readFile(path.join(process.cwd(), "data/test.org"));
-  const data = rawData.toString();
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//   const rawData = await fs.readFile(path.join(process.cwd(), "data/test.org"));
+//   const data = rawData.toString();
 
-  return {
-    props: {
-      data: (await processor.process(data)).value.toString(),
-    },
-  };
-};
+//   return {
+//     props: {
+//       data: (await processor.process(data)).value.toString(),
+//     },
+//   };
+// };
 
-const Home: NextPage<{ data: string }> = ({ data }) => {
+const Home: NextPage<{ data: string }> = () => {
   // console.log(processor.processSync(data));
   // console.log(testProcessor.processSync(data));
   return (
@@ -32,15 +32,6 @@ const Home: NextPage<{ data: string }> = ({ data }) => {
           <h1 className="text-5xl font-extrabold">Journal</h1>
           <span>Kyle Pfromer</span>
         </div>
-
-        <hr className="my-6" />
-
-        <div
-          className="mx-auto prose max-w-none"
-          dangerouslySetInnerHTML={{
-            __html: data,
-          }}
-        />
       </main>
     </div>
   );

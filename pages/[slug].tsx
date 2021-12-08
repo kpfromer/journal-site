@@ -3,20 +3,12 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { PrismaClient } from "@prisma/client";
 import { processor } from "../lib/org-parser";
-
-const getPages = async () => {
-  const client = new PrismaClient();
-
-  const pages = await client.orgPage.findMany();
-  return pages.map((page) => page.slug);
-};
+import { useRouter } from "next/dist/client/router";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const slugs = await getPages();
-
   return {
-    paths: slugs.map((slug) => ({ params: { slug } })),
-    fallback: false,
+    paths: [],
+    fallback: true,
   };
 };
 
@@ -34,11 +26,15 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       data,
     },
+    // Re-generate the post at most once per second
+    // if a request comes in
+    revalidate: 1,
   };
 };
 
 const Home: NextPage<{ data: string }> = ({ data }) => {
   // console.log(processor.processSync(data));
+  const router = useRouter();
   return (
     <div>
       <Head>
@@ -52,15 +48,17 @@ const Home: NextPage<{ data: string }> = ({ data }) => {
           <h1 className="text-5xl font-extrabold">Journal</h1>
           <span>Kyle Pfromer</span>
         </div>
-
         <hr className="my-6" />
-
-        <div
-          className="mx-auto prose max-w-none"
-          dangerouslySetInnerHTML={{
-            __html: data,
-          }}
-        />
+        {router.isFallback ? (
+          <div className="mx-auto prose max-w-none">Loading...</div>
+        ) : (
+          <div
+            className="mx-auto prose max-w-none"
+            dangerouslySetInnerHTML={{
+              __html: data,
+            }}
+          />
+        )}{" "}
       </main>
     </div>
   );
