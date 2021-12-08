@@ -4,9 +4,9 @@ import Head from "next/head";
 import { PrismaClient } from "@prisma/client";
 import { processor } from "../lib/org-parser";
 
-const client = new PrismaClient();
-
 const getPages = async () => {
+  const client = new PrismaClient();
+
   const pages = await client.orgPage.findMany();
   return pages.map((page) => page.slug);
 };
@@ -21,6 +21,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const client = new PrismaClient();
+
   const slug = (params?.slug ?? "") as string;
   const dbItem = await client.orgPage.findFirst({
     where: { slug },
