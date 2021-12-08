@@ -59,7 +59,6 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     getOrgPages: NexusGenRootTypes['OrgPage'][]; // [OrgPage!]!
-    hello: string | null; // String
   }
 }
 
@@ -75,7 +74,6 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     getOrgPages: 'OrgPage'
-    hello: 'String'
   }
 }
 
@@ -87,11 +85,6 @@ export interface NexusGenArgTypes {
     }
     deleteOrgPage: { // args
       id: number; // Int!
-    }
-  }
-  Query: {
-    hello: { // args
-      name?: string | null; // String
     }
   }
 }

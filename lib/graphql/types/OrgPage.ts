@@ -19,20 +19,16 @@ export const OrgPageSchema = objectType({
   },
 });
 
-// export const Query = queryType({
-//   definition(t) {
-//     t.string("hello", {
-//       args: { name: stringArg() },
-//       resolve: (parent, { name }) => `Hello ${name || "World"}!`,
-//     });
-//     t.nonNull.list.nonNull.field("getOrgPages", {
-//       type: "OrgPage",
-//       resolve: (parent, args, ctx) => {
-//         return ctx.prisma.orgPage.findMany();
-//       },
-//     });
-//   },
-// });
+export const Query = queryType({
+  definition(t) {
+    t.nonNull.list.nonNull.field("getOrgPages", {
+      type: "OrgPage",
+      resolve: (parent, args, ctx) => {
+        return ctx.prisma.orgPage.findMany();
+      },
+    });
+  },
+});
 
 export const MutationAccount = extendType({
   type: "Mutation",

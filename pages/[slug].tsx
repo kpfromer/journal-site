@@ -1,27 +1,18 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 
 import Head from "next/head";
-import { promises as fs } from "fs";
+import { PrismaClient } from "@prisma/client";
 import path from "path";
 import { processor } from "../lib/org-parser";
+
+const client = new PrismaClient();
 
 const getPageFile = (file?: string) =>
   path.join(process.cwd(), "data", file ?? "");
 
 const getPages = async () => {
-  const files = [];
-
-  const items = await fs.readdir(getPageFile());
-
-  for (const item of items) {
-    const stat = await fs.stat(getPageFile(item));
-
-    if (stat.isFile()) {
-      files.push(path.parse(item).name);
-    }
-  }
-
-  return files;
+  const pages = await client.orgPage.findMany();
+  return pages.map((page) => page.slug);
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -34,8 +25,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const rawData = await fs.readFile(getPageFile(`${params?.slug}.org`));
-  const data = rawData.toString();
+  const slug = (params?.slug ?? "") as string;
+  const dbItem = await client.orgPage.findFirst({
+    where: { slug },
+  });
+
+  const data = processor.processSync(dbItem?.content ?? "").value.toString();
 
   return {
     props: {
@@ -45,7 +40,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 const Home: NextPage<{ data: string }> = ({ data }) => {
-  console.log(processor.processSync(data));
+  // console.log(processor.processSync(data));
   return (
     <div>
       <Head>
@@ -65,7 +60,7 @@ const Home: NextPage<{ data: string }> = ({ data }) => {
         <div
           className="mx-auto prose max-w-none"
           dangerouslySetInnerHTML={{
-            __html: processor.processSync(data).value.toString(),
+            __html: data,
           }}
         />
       </main>

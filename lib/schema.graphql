@@ -15,5 +15,4 @@ type OrgPage {
 
 type Query {
   getOrgPages: [OrgPage!]!
-  hello(name: String): String
 }
