@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import prisma from "../prisma";
+import getClient from "../prisma";
 
 export type Context = {
   prisma: PrismaClient;
@@ -9,6 +9,6 @@ export type Context = {
 export function createContext(headers: Record<string, string>) {
   return {
     headers,
-    prisma,
+    prisma: getClient(),
   };
 }
