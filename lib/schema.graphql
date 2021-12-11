@@ -6,7 +6,7 @@ type Mutation {
   createOrgPage(content: String!, slug: String!): OrgPage!
   deleteOrgPage(id: Int!): Boolean!
   updateOrgPage(content: String, id: Int!, slug: String): OrgPage!
-  upsertOrgPage(content: String, slug: String!): OrgPage!
+  upsertOrgPage(content: String!, slug: String!): OrgPage!
 }
 
 type OrgPage {

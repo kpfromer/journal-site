@@ -96,7 +96,7 @@ export interface NexusGenArgTypes {
       slug?: string | null; // String
     }
     upsertOrgPage: { // args
-      content?: string | null; // String
+      content: string; // String!
       slug: string; // String!
     }
   }

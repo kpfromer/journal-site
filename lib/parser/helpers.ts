@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import { Node } from "unist";
 
 // TODO: better typing
 export function isHeading(node: Node): boolean {

@@ -1,3 +1,5 @@
+import { isText, tryConvert } from "./helpers";
+
 import { DateTime } from "luxon";
 import { Node } from "unist";
 import { Processor } from "unified";
@@ -9,7 +11,7 @@ export function transformHeadings(
   opts?: Options
 ): Transformer {
   function transformHeadingText(node: Node) {
-    if (isText(node) && node.value.trim().length !== 0) {
+    if (isText(node) && (node as any).value.trim().length !== 0) {
       const convert: [format: string, to: (time: DateTime) => string][] = [
         [
           "[yyyy-MM-dd EEE T]",
@@ -19,9 +21,9 @@ export function transformHeadings(
         ["yyyy-MM MMMM", (date) => date.toFormat("MMMM")],
       ];
 
-      const dateString = tryConvert(node.value, convert);
+      const dateString = tryConvert((node as any).value, convert);
       if (typeof dateString === "string") {
-        node.value = dateString;
+        (node as any).value = dateString;
       }
     }
   }
@@ -30,14 +32,14 @@ export function transformHeadings(
     if (
       typeof node === "object" &&
       node.type === "element" &&
-      typeof node.tagName === "string" &&
-      ["h1", "h2", "h3", "h4", "h5", "h6"].includes(node.tagName)
+      typeof (node as any).tagName === "string" &&
+      ["h1", "h2", "h3", "h4", "h5", "h6"].includes((node as any).tagName)
     ) {
       list.push(node);
     }
 
-    if (node.children) {
-      for (let child of node.children) {
+    if ((node as any).children) {
+      for (let child of (node as any).children) {
         recursiveFindHeadings(child, list);
       }
     }
@@ -47,11 +49,13 @@ export function transformHeadings(
     recursiveFindHeadings(node, headings);
     return headings;
   }
+
+  // @ts-ignore
   return function transformer(root: Node): Node {
     const headings = findHeadings(root);
     console.dir({ headings }, { depth: null });
     headings.forEach((heading) =>
-      heading.children.forEach(transformHeadingText)
+      (heading as any).children.forEach(transformHeadingText)
     );
 
     return root;
