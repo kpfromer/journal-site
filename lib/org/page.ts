@@ -1,5 +1,5 @@
 import prisma from "../prisma";
-import { processor } from "../org-parser";
+import { processor } from "../parser/org-parser";
 
 export async function getPageContentBySlug(
   slug: string

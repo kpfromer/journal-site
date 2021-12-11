@@ -7,6 +7,7 @@ specifiers:
   '@orgajs/reorg-rehype': ^3.0.9
   '@prisma/client': ^3.6.0
   '@tailwindcss/typography': ^0.4.1
+  '@types/luxon': ^2.0.7
   '@types/node': 16.11.7
   '@types/react': 17.0.35
   autoprefixer: ^10.4.0
@@ -14,6 +15,7 @@ specifiers:
   eslint-config-next: 12.0.4
   graphql: ^15.7.2
   graphql-helix: ^1.10.3
+  luxon: ^2.1.1
   next: 12.0.4
   nexus: ^1.1.0
   nexus-plugin-prisma: ^0.35.0
@@ -26,6 +28,7 @@ specifiers:
   rehype-react: ^7.0.3
   rehype-stringify: ^9.0.2
   tailwindcss: ^2.2.19
+  ts-mdast: ^1.0.0
   typescript: 4.4.4
   unified: ^10.1.0
 
@@ -38,6 +41,7 @@ dependencies:
   '@tailwindcss/typography': 0.4.1_tailwindcss@2.2.19
   graphql: 15.8.0
   graphql-helix: 1.10.3_graphql@15.8.0
+  luxon: 2.1.1
   next: 12.0.4_react-dom@17.0.2+react@17.0.2
   nexus: 1.1.0_graphql@15.8.0
   nexus-plugin-prisma: 0.35.0_2f036d1850a9565cb261de4adbe399e7
@@ -47,9 +51,11 @@ dependencies:
   rehype-highlight: 5.0.0
   rehype-react: 7.0.3
   rehype-stringify: 9.0.2
+  ts-mdast: 1.0.0
   unified: 10.1.0
 
 devDependencies:
+  '@types/luxon': 2.0.7
   '@types/node': 16.11.7
   '@types/react': 17.0.35
   autoprefixer: 10.4.0_postcss@8.3.11
@@ -482,6 +488,16 @@ packages:
   /@types/json5/0.0.29:
     resolution: {integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=}
     dev: true
+
+  /@types/luxon/2.0.7:
+    resolution: {integrity: sha512-AxiYycfO+/M4VIH0ribSr2iPFC+APewpJIaQSydwVnzorK3mjSFXkA3HmhQidGx44MpwaatFyEkbW/WD4zdDaQ==}
+    dev: true
+
+  /@types/mdast/3.0.10:
+    resolution: {integrity: sha512-W864tg/Osz1+9f4lrGTZpCSO5/z4608eUp19tbozkq2HJK6i3z1kT0H9tlADXuYIb1YYOBByU4Jsqkk75q48qA==}
+    dependencies:
+      '@types/unist': 2.0.6
+    dev: false
 
   /@types/ms/0.7.31:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
@@ -3272,6 +3288,11 @@ packages:
     dependencies:
       yallist: 4.0.0
 
+  /luxon/2.1.1:
+    resolution: {integrity: sha512-6VQVNw7+kQu3hL1ZH5GyOhnk8uZm21xS7XJ/6vDZaFNcb62dpFDKcH8TI5NkoZOdMRxr7af7aYGrJlE/Wv0i1w==}
+    engines: {node: '>=12'}
+    dev: false
+
   /make-dir/1.3.0:
     resolution: {integrity: sha512-2w31R7SJtieJJnQtGc7RVL2StM2vGYVfqUOvUDxH6bC6aJTxPxTF0GnIgCyu7tjockiUWAYQRbxa7vKn34s5sQ==}
     engines: {node: '>=4'}
@@ -5062,6 +5083,14 @@ packages:
 
   /trough/2.0.2:
     resolution: {integrity: sha512-FnHq5sTMxC0sk957wHDzRnemFnNBvt/gSY99HzK8F7UP5WAbvP70yX5bd7CjEQkN+TjdxwI7g7lJ6podqrG2/w==}
+    dev: false
+
+  /ts-mdast/1.0.0:
+    resolution: {integrity: sha512-FmT5GbMU629/ty64741v7TdO8jm5xW09okr2VNExkLuRk5ngjKIDdn/woTB8lDtcgCMRS8lUNubImen0MkdF6g==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      '@types/mdast': 3.0.10
+      '@types/unist': 2.0.6
     dev: false
 
   /ts-replace-all/1.0.0:
