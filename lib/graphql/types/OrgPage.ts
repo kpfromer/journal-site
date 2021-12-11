@@ -49,6 +49,40 @@ export const MutationAccount = extendType({
       },
     });
 
+    t.nonNull.field("updateOrgPage", {
+      type: "OrgPage",
+      args: {
+        id: nonNull(intArg()),
+        slug: stringArg(),
+        content: stringArg(),
+      },
+      async resolve(_, { id, slug, content }, ctx) {
+        return ctx.prisma.orgPage.update({
+          where: { id },
+          data: { slug: slug ?? undefined, content: content ?? undefined },
+        });
+      },
+    });
+
+    t.nonNull.field("upsertOrgPage", {
+      type: "OrgPage",
+      args: {
+        slug: nonNull(stringArg()),
+        content: nonNull(stringArg()),
+      },
+      async resolve(_, args, ctx) {
+        const { slug, content } = args as { slug: string; content: string };
+        return ctx.prisma.orgPage.upsert({
+          create: {
+            slug,
+            content,
+          },
+          update: { content },
+          where: { slug },
+        });
+      },
+    });
+
     t.nonNull.field("deleteOrgPage", {
       type: "Boolean",
       args: {

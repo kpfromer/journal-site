@@ -51,6 +51,8 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     createOrgPage: NexusGenRootTypes['OrgPage']; // OrgPage!
     deleteOrgPage: boolean; // Boolean!
+    updateOrgPage: NexusGenRootTypes['OrgPage']; // OrgPage!
+    upsertOrgPage: NexusGenRootTypes['OrgPage']; // OrgPage!
   }
   OrgPage: { // field return type
     content: string; // String!
@@ -66,6 +68,8 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     createOrgPage: 'OrgPage'
     deleteOrgPage: 'Boolean'
+    updateOrgPage: 'OrgPage'
+    upsertOrgPage: 'OrgPage'
   }
   OrgPage: { // field return type name
     content: 'String'
@@ -85,6 +89,15 @@ export interface NexusGenArgTypes {
     }
     deleteOrgPage: { // args
       id: number; // Int!
+    }
+    updateOrgPage: { // args
+      content?: string | null; // String
+      id: number; // Int!
+      slug?: string | null; // String
+    }
+    upsertOrgPage: { // args
+      content?: string | null; // String
+      slug: string; // String!
     }
   }
 }
